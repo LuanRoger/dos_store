@@ -25,7 +25,9 @@ while(True):
     print("║ [ 0 ] - Sair.                         ║")
     print("╚═══════════════════════════════════════╝")
 
-    menu_choice = input("> ")
+    menu_choice = input("> ").strip()
+
+    print(menu_choice)
 
     if(menu_choice == "1"):
         clientController.RegisterClient()
