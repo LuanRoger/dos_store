@@ -11,7 +11,7 @@ class ClientModel:
     tellNumb: str
     endereco: AddressModel
 
-    def __init__(self, nome, login, senha, email, data_nascimento, tellNumb, endereco) -> None:
+    def __init__(self, nome, login, senha, email, data_nascimento, tellNumb, endereco):
         self.nome = nome
         self.login = login
         self.senha = senha

@@ -5,8 +5,15 @@ from util.error_handling import ErrorHandling
 
 
 class ClientController:
-    client_list = {} #<ClientModel>
+    _client_list = {} #<ClientModel>
 
+    def GetClientByLogin(self, login: str) -> ClientModel:
+        try:
+            return self._client_list[login]
+        except:
+            return None
+
+    #TODO: Trim all inputs
     def RegisterClient(self):
         nome: str = None
         login: str = None
@@ -115,10 +122,58 @@ class ClientController:
         
             tellNumb = f"({ddd}) {tellNumbLocalTemp}"
         
-        self.client_list[login] = ClientModel(nome, login, senha, email,
+        self._client_list[login] = ClientModel(nome, login, senha, email,
          data_nascimento, tellNumb, endereco)
 
         print("╔════════════════════════════════╗")
         print("║ Cliente cadastrado com sucesso ║")
         print("╚════════════════════════════════╝")
         #TODO: Perguntar se quer cadastrar um endereço para o login atual
+
+    def ShowRegistredClients(self):
+        actualClient: ClientModel = None
+
+        while(actualClient == None):
+            tempUser: ClientModel = None
+
+            print("╔══════════════════╗")
+            print("║ Digite seu login ║")
+            print("╚══════════════════╝")
+
+            login = input("> ")
+            tempUser = self.GetClientByLogin(login)
+
+            if(tempUser == None):
+                ErrorHandling.ThrowWarning("Este cliente não existe")
+                break
+
+            print("╔══════════════════╗")
+            print("║ Digite sua senha ║")
+            print("╚══════════════════╝")
+
+            password = input("> ")
+            
+            if(tempUser.senha != password):
+                ErrorHandling.ThrowWarning("Senha incorreta")
+                break
+
+            actualClient = tempUser
+        
+        if(actualClient == None):
+            return
+        
+        print("╔═══════════════════════════ Informações ═══════════════════════════╗")
+        print(f" Nome completo: " + actualClient.nome)
+        print(f" Email: " + actualClient.email)
+        print(f" Login: " + actualClient.login)
+        print(f" Data de nascimento: " + actualClient.data_nascimento.strftime("%d/%m/%Y"))
+        print(f" N° Telefone: " + actualClient.tellNumb)
+        print("  ╔═════════════════════════ Endereço ═════════════════════════╗")
+        print(f"   Rua: " + actualClient.endereco.rua)
+        print(f"   N°: " + actualClient.endereco.numero)
+        print(f"   Complemento: " + actualClient.endereco.bairro)
+        print(f"   Cidade: " + actualClient.endereco.cidade)
+        print(f"   CEP: " + actualClient.endereco.cep)
+        print(f"   Ponto de referência: " + actualClient.endereco.pontoReferencia)
+        print("  ╚════════════════════════════════════════════════════════════╝")
+        print("╚═══════════════════════════════════════════════════════════════════╝")
