@@ -1,11 +1,12 @@
 from datetime import date
+from typing import Dict
 from models.address_model import AddressModel
 from models.client_model import ClientModel
 from util.error_handling import ErrorHandling
 
 
 class ClientController:
-    _client_list = {} #<ClientModel>
+    _client_list: Dict[str, ClientModel] = {}
 
     def GetClientByLogin(self, login: str) -> ClientModel:
         try:
@@ -168,7 +169,7 @@ class ClientController:
         print("╚════════════════════════════════╝")
         #TODO: Perguntar se quer cadastrar um endereço para o login atual
 
-    def ShowRegistredClients(self):
+    def ShowRegistredClient(self):
         actualClient = self.GetClientByLoginUi(False)
 
         if(actualClient == None):
@@ -192,3 +193,33 @@ class ClientController:
             print("  ╚════════════════════════════════════════════════════════════╝")
 
         print("╚═══════════════════════════════════════════════════════════════════╝")
+    
+    def ShowAllClients(self):
+        tempClientAuth = self.GetClientByLoginUi()
+        if(tempClientAuth == None):
+            ErrorHandling.ThrowWarning("Este cliente não existe")
+            return
+
+        del tempClientAuth
+
+        print("Clientes cadastrados")
+        for login, client in self._client_list.items():
+            isLast: bool = list(self._client_list)[-1] == login
+
+            rootIndent = "└── " if isLast else "├── "
+            rootIndent2 = "    " if isLast else "│   "
+            lastClientCharacterTree = "└── " if client.endereco == None else "├── "
+
+            print(rootIndent + client.nome)
+            print(rootIndent2 + "├── " + client.email)
+            print(rootIndent2 + "├── " + client.login)
+            print(rootIndent2 + "├── " + client.data_nascimento.strftime("%d/%m/%Y"))
+            print(rootIndent2 + lastClientCharacterTree + client.tellNumb)
+            if(client.endereco != None):
+                print(rootIndent2 + "└── " + "Endereço")
+                print(rootIndent2 + "    " + "├── " + client.endereco.rua)
+                print(rootIndent2 + "    " + "├── " + client.endereco.numero)
+                print(rootIndent2 + "    " + "├── " + client.endereco.complemento)
+                print(rootIndent2 + "    " + "├── " + client.endereco.cidade)
+                print(rootIndent2 + "    " + "├── " + client.endereco.cep)
+                print(rootIndent2 + "    " + "└── " + client.endereco.pontoReferencia)

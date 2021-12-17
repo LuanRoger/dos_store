@@ -34,7 +34,9 @@ while(True):
     elif(menu_choice == "2"):
         addreeController.RegisterAddressToClient(clientController)
     elif(menu_choice == "3"):
-        clientController.ShowRegistredClients()
+        clientController.ShowRegistredClient()
+    elif(menu_choice == "4"):
+        clientController.ShowAllClients()
     elif(menu_choice == "0"):
         break
     else:
