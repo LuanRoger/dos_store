@@ -6,36 +6,12 @@ from util.error_handling import ErrorHandling
 #static
 class AddressController:
     def RegisterAddressToClient(self, clientController: ClientController):
-        actualClient: ClientModel = None
+        actualClient: ClientModel = clientController.GetClientByLoginUi()
 
-        while(actualClient == None):
-            tempUser: ClientModel = None
-
-            print("╔══════════════════╗")
-            print("║ Digite seu login ║")
-            print("╚══════════════════╝")
-
-            login = input("> ")
-            tempUser = clientController.GetClientByLogin(login)
-
-            if(tempUser == None):
-                ErrorHandling.ThrowWarning("Este cliente não existe")
-                break
-
-            print("╔══════════════════╗")
-            print("║ Digite sua senha ║")
-            print("╚══════════════════╝")
-
-            password = input("> ")
-            
-            if(tempUser.senha != password):
-                ErrorHandling.ThrowWarning("Senha incorreta")
-                break
-
-            actualClient = tempUser
-
-        if(actualClient != None):
-            self._RegisterClientAddress(actualClient)
+        if(actualClient == None):
+            return
+        
+        self._RegisterClientAddress(actualClient)
 
     def _RegisterClientAddress(self, client: ClientModel):
         rua: str = None
