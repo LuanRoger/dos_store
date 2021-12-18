@@ -13,9 +13,6 @@ from util.error_handling import ErrorHandling
 # │
 # └─── info
 
-clientController = ClientController()
-addreeController = AddressController()
-
 while(True):
     print("╔══════════════ DOS Store ══════════════╗")
     print("║ [ 1 ] - Cadastrar cliente.            ║")
@@ -30,13 +27,13 @@ while(True):
     print(menu_choice)
 
     if(menu_choice == "1"):
-        clientController.RegisterClient()
+        ClientController.RegisterClient()
     elif(menu_choice == "2"):
-        addreeController.RegisterAddressToClient(clientController)
+        AddressController.RegisterAddressToClient()
     elif(menu_choice == "3"):
-        clientController.ShowRegistredClient()
+        ClientController.ShowRegistredClient()
     elif(menu_choice == "4"):
-        clientController.ShowAllClients()
+        ClientController.ShowAllClients()
     elif(menu_choice == "0"):
         break
     else:

@@ -1,19 +1,18 @@
 from datetime import date
 from typing import Dict
-from models.address_model import AddressModel
 from models.client_model import ClientModel
 from util.error_handling import ErrorHandling
 
-
+#static
 class ClientController:
     _client_list: Dict[str, ClientModel] = {}
 
-    def GetClientByLogin(self, login: str) -> ClientModel:
+    def GetClientByLogin(login: str) -> ClientModel:
         try:
-            return self._client_list[login]
+            return ClientController._client_list[login]
         except:
             return None
-    def GetClientByLoginUi(self, singleTimeVerify: bool = True) -> ClientModel:
+    def GetClientByLoginUi(singleTimeVerify: bool = True) -> ClientModel:
         actualClient: ClientModel = None
 
         while(actualClient == None):
@@ -29,7 +28,7 @@ class ClientController:
             if(login == "/exit" and not singleTimeVerify): #Way to exit
                 return None
 
-            actualClient = self.GetClientByLogin(login)
+            actualClient = ClientController.GetClientByLogin(login)
 
             if(actualClient == None):
                 ErrorHandling.ThrowWarning("Este cliente não existe")
@@ -53,14 +52,13 @@ class ClientController:
         
         return actualClient
 
-    def RegisterClient(self):
+    def RegisterClient():
         nome: str = None
         login: str = None
         senha: str = None
         email: str = None
         data_nascimento: date = None
         tellNumb: str = None
-        endereco: AddressModel = None
 
         while(nome == None or nome == ""):
             print("╔═════════════════╗")
@@ -76,7 +74,7 @@ class ClientController:
 
             login = input("> ").strip()
             
-            if(login in self._client_list):
+            if(login in ClientController._client_list):
                 ErrorHandling.ThrowWarning("Este login já está cadastrado")
                 login = None
         
@@ -161,16 +159,15 @@ class ClientController:
         
             tellNumb = f"({ddd}) {tellNumbLocalTemp}"
         
-        self._client_list[login] = ClientModel(nome, login, senha, email,
-         data_nascimento, tellNumb, endereco)
+        ClientController._client_list[login] = ClientModel(nome, login, senha, email,
+         data_nascimento, tellNumb, None)
 
         print("╔════════════════════════════════╗")
         print("║ Cliente cadastrado com sucesso ║")
         print("╚════════════════════════════════╝")
-        #TODO: Perguntar se quer cadastrar um endereço para o login atual
 
-    def ShowRegistredClient(self):
-        actualClient = self.GetClientByLoginUi(False)
+    def ShowRegistredClient():
+        actualClient = ClientController.GetClientByLoginUi(False)
 
         if(actualClient == None):
             return
@@ -182,20 +179,21 @@ class ClientController:
         print(f" Data de nascimento: " + actualClient.data_nascimento.strftime("%d/%m/%Y"))
         print(f" N° Telefone: " + actualClient.tellNumb)
 
-        if(actualClient.endereco != None):
-            print("  ╔═════════════════════════ Endereço ═════════════════════════╗")
-            print(f"   Rua: " + actualClient.endereco.rua)
-            print(f"   N°: " + actualClient.endereco.numero)
-            print(f"   Complemento: " + actualClient.endereco.bairro)
-            print(f"   Cidade: " + actualClient.endereco.cidade)
-            print(f"   CEP: " + actualClient.endereco.cep)
-            print(f"   Ponto de referência: " + actualClient.endereco.pontoReferencia)
-            print("  ╚════════════════════════════════════════════════════════════╝")
+        if(actualClient.enderecos != None):
+            defaultAddress = actualClient.enderecos[0]
+            print("  ╔══════════════════════ Endereço (Padrão) ═════════════════════╗")
+            print(f"   Rua: " + defaultAddress.rua)
+            print(f"   N°: " + defaultAddress.numero)
+            print(f"   Complemento: " + defaultAddress.bairro)
+            print(f"   Cidade: " + defaultAddress.cidade)
+            print(f"   CEP: " + defaultAddress.cep)
+            print(f"   Ponto de referência: " + defaultAddress.pontoReferencia)
+            print("  ╚══════════════════════════════════════════════════════════════╝")
 
         print("╚═══════════════════════════════════════════════════════════════════╝")
     
-    def ShowAllClients(self):
-        tempClientAuth = self.GetClientByLoginUi()
+    def ShowAllClients():
+        tempClientAuth = ClientController.GetClientByLoginUi()
         if(tempClientAuth == None):
             ErrorHandling.ThrowWarning("Este cliente não existe")
             return
@@ -203,23 +201,33 @@ class ClientController:
         del tempClientAuth
 
         print("Clientes cadastrados")
-        for login, client in self._client_list.items():
-            isLast: bool = list(self._client_list)[-1] == login
+        for login, client in ClientController._client_list.items():
+            isLast: bool = list(ClientController._client_list)[-1] == login
 
             rootIndent = "└── " if isLast else "├── "
             rootIndent2 = "    " if isLast else "│   "
-            lastClientCharacterTree = "└── " if client.endereco == None else "├── "
+            lastClientCharacterTree = "└── " if client.enderecos == None else "├── "
 
             print(rootIndent + client.nome)
             print(rootIndent2 + "├── " + client.email)
             print(rootIndent2 + "├── " + client.login)
             print(rootIndent2 + "├── " + client.data_nascimento.strftime("%d/%m/%Y"))
             print(rootIndent2 + lastClientCharacterTree + client.tellNumb)
-            if(client.endereco != None):
-                print(rootIndent2 + "└── " + "Endereço")
-                print(rootIndent2 + "    " + "├── " + client.endereco.rua)
-                print(rootIndent2 + "    " + "├── " + client.endereco.numero)
-                print(rootIndent2 + "    " + "├── " + client.endereco.complemento)
-                print(rootIndent2 + "    " + "├── " + client.endereco.cidade)
-                print(rootIndent2 + "    " + "├── " + client.endereco.cep)
-                print(rootIndent2 + "    " + "└── " + client.endereco.pontoReferencia)
+            if(client.enderecos != None):
+                print(rootIndent2 + "└── " + "Endereços")
+                listInterator: int = 1
+                for enderco in client.enderecos:
+                    isLastAddress: bool = enderco == client.enderecos[-1]
+
+                    rootAddressIndent = "└── " if isLastAddress else "├── "
+                    rootAddressIndent2 = "    " if isLastAddress else "│   "
+
+                    print(rootIndent2 + "    " + rootAddressIndent + "Endereço " + str(listInterator))
+                    print(rootIndent2 + "    " + rootAddressIndent2 + "├── " + enderco.rua)
+                    print(rootIndent2 + "    " + rootAddressIndent2 + "├── " + enderco.numero)
+                    print(rootIndent2 + "    " + rootAddressIndent2 + "├── " + enderco.complemento)
+                    print(rootIndent2 + "    " + rootAddressIndent2 + "├── " + enderco.cidade)
+                    print(rootIndent2 + "    " + rootAddressIndent2 + "├── " + enderco.cep)
+                    print(rootIndent2 + "    " + rootAddressIndent2 + "└── " + enderco.pontoReferencia)
+
+                    listInterator += 1

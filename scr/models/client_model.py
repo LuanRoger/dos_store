@@ -1,6 +1,6 @@
 from datetime import date
-
 from models.address_model import AddressModel
+from typing import List
 
 class ClientModel:
     nome: str
@@ -9,7 +9,7 @@ class ClientModel:
     email: str
     data_nascimento: date
     tellNumb: str
-    endereco: AddressModel
+    enderecos: List[AddressModel]
 
     def __init__(self, nome, login, senha, email, data_nascimento, tellNumb, endereco):
         self.nome = nome
@@ -18,4 +18,4 @@ class ClientModel:
         self.email = email
         self.data_nascimento = data_nascimento
         self.tellNumb = tellNumb
-        self.endereco = endereco
+        self.enderecos = endereco

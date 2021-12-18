@@ -5,15 +5,15 @@ from util.error_handling import ErrorHandling
 
 #static
 class AddressController:
-    def RegisterAddressToClient(self, clientController: ClientController):
-        actualClient: ClientModel = clientController.GetClientByLoginUi()
+    def RegisterAddressToClient():
+        actualClient: ClientModel = ClientController.GetClientByLoginUi()
 
         if(actualClient == None):
             return
         
-        self._RegisterClientAddress(actualClient)
+        AddressController._RegisterClientAddress(actualClient)
 
-    def _RegisterClientAddress(self, client: ClientModel):
+    def _RegisterClientAddress(client: ClientModel):
         rua: str = None
         numero: str = None
         complemento: str = None
@@ -22,14 +22,14 @@ class AddressController:
         cep: str = None
         pontoReferencia: str = None
 
-        while(rua == None):
+        while(rua == None or rua == ""):
             print("╔════════════════╗")
             print("║ Digite sua rua ║")
             print("╚════════════════╝")
 
             rua = input("> ")
         
-        while(numero == None):
+        while(numero == None or numero == ""):
             print("╔═════════════════════════════╗")
             print("║ Digite o numero da sua casa ║")
             print("╚═════════════════════════════╝")
@@ -40,28 +40,28 @@ class AddressController:
                 ErrorHandling.ThrowWarning("Digite um valor válido.")
                 numero = None
         
-        while(complemento == None):
+        while(complemento == None or complemento == ""):
             print("╔══════════════════════╗")
             print("║ Digite o complemento ║")
             print("╚══════════════════════╝")
 
             complemento = input("> ")
         
-        while(bairro == None):
+        while(bairro == None or bairro == ""):
             print("╔═════════════════════════╗")
             print("║ Digite o nome do bairro ║")
             print("╚═════════════════════════╝")
 
             bairro = input("> ")
         
-        while(cidade == None):
+        while(cidade == None or cidade == ""):
             print("╔═════════════════════════╗")
             print("║ Digite o nome da cidade ║")
             print("╚═════════════════════════╝")
 
             cidade = input("> ")
         
-        while(cep == None):
+        while(cep == None or cep == ""):
             print("╔══════════════╗")
             print("║ Digite o CEP ║")
             print("╚══════════════╝")
@@ -71,14 +71,17 @@ class AddressController:
             if(len(cep) != 8):
                 ErrorHandling.ThrowWarning("O valor digitado é inválido")
         
-        while(pontoReferencia == None):
+        while(pontoReferencia == None or pontoReferencia == ""):
             print("╔══════════════════════════════╗")
             print("║ Digite o ponto de referência ║")
             print("╚══════════════════════════════╝")
 
             pontoReferencia = input("> ")
         
-        client.endereco = AddressModel(rua, numero, complemento, bairro, cidade, cep, pontoReferencia)
+        if(client.enderecos == None):
+            client.enderecos = []
+
+        client.enderecos.append(AddressModel(rua, numero, complemento, bairro, cidade, cep, pontoReferencia))
 
         print("╔═════════════════════════════════╗")
         print("║ Endereço cadastrado com sucesso ║")
