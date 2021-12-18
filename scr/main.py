@@ -13,6 +13,11 @@ from util.error_handling import ErrorHandling
 # │
 # └─── info
 
+#regin Initial configure ------------------------------------------
+ClientController.LoadClientsFromFile()
+
+#endregion
+
 while(True):
     print("╔══════════════ DOS Store ══════════════╗")
     print("║ [ 1 ] - Cadastrar cliente.            ║")
@@ -35,6 +40,7 @@ while(True):
     elif(menu_choice == "4"):
         ClientController.ShowAllClients()
     elif(menu_choice == "0"):
+        ClientController.SaveClientsInFile()
         break
     else:
         ErrorHandling.ThrowWarning("Comando inválido ou inexistente")

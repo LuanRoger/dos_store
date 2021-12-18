@@ -1,11 +1,13 @@
 from datetime import date
 from typing import Dict
 from models.client_model import ClientModel
+from util.object_serialization import ObjectSerialization
 from util.error_handling import ErrorHandling
 
 #static
 class ClientController:
     _client_list: Dict[str, ClientModel] = {}
+    _CLIENTS_FILE_PATH = "./clients.uli" #User list info
 
     def GetClientByLogin(login: str) -> ClientModel:
         try:
@@ -51,6 +53,16 @@ class ClientController:
                 continue
         
         return actualClient
+
+    #region Client persistence ----------------------------------------------------
+    def SaveClientsInFile():
+        ObjectSerialization.DumpToBin(ClientController._client_list, ClientController._CLIENTS_FILE_PATH)
+    def LoadClientsFromFile():
+        try:
+            ClientController._client_list = ObjectSerialization.LoadFromBin(ClientController._CLIENTS_FILE_PATH)
+        except:
+            pass
+    #endregion---------------------------------------------------------------------
 
     def RegisterClient():
         nome: str = None
@@ -165,7 +177,6 @@ class ClientController:
         print("╔════════════════════════════════╗")
         print("║ Cliente cadastrado com sucesso ║")
         print("╚════════════════════════════════╝")
-
     def ShowRegistredClient():
         actualClient = ClientController.GetClientByLoginUi(False)
 
