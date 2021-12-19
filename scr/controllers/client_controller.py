@@ -18,7 +18,6 @@ class ClientController:
         actualClient: ClientModel = None
 
         while(actualClient == None):
-
             print("╔══════════════════╗")
             print("║ Digite seu login ║")
             print("╚══════════════════╝")
@@ -177,6 +176,47 @@ class ClientController:
         print("╔════════════════════════════════╗")
         print("║ Cliente cadastrado com sucesso ║")
         print("╚════════════════════════════════╝")
+    def DeleteClient():
+        tempClientAuth = ClientController.GetClientByLoginUi(False)
+        if(tempClientAuth == None):
+            ErrorHandling.ThrowWarning("Este cliente não existe")
+            return
+
+        del tempClientAuth
+
+        loginClientToDelete: str = None
+        while(loginClientToDelete == None):
+            print("╔══════════════════════════════════════════════╗")
+            print("║ Digite o login do cliente que deseja deletar ║")
+            print("╚══════════════════════════════════════════════╝")
+            print("[/exit] - Para sair")
+
+            loginClientToDelete = input("> ").strip()
+
+            if(loginClientToDelete == "/exit"):
+                return
+
+            userVerify = ClientController.GetClientByLogin(loginClientToDelete)
+            if(userVerify == None):
+                ErrorHandling.ThrowError("Este cliente não existe")
+                return
+        
+        print("╔════════════════════════════════════════════════╗")
+        print("║ Deseja realmente deleta o usuário selecionado? ║")
+        print("║ [ 1 ] - Sim.                      [ 2 ] - Não. ║")
+        print("╚════════════════════════════════════════════════╝")
+
+        deleteUserChoice = input("> ").strip()
+
+        if(deleteUserChoice != "1"):
+            return
+
+        del ClientController._client_list[loginClientToDelete]
+
+        print("╔══════════════════════════════╗")
+        print("║ Cliente deletado com sucesso ║")
+        print("╚══════════════════════════════╝")
+
     def ShowRegistredClient():
         actualClient = ClientController.GetClientByLoginUi(False)
 
@@ -202,11 +242,9 @@ class ClientController:
             print("  ╚══════════════════════════════════════════════════════════════╝")
 
         print("╚═══════════════════════════════════════════════════════════════════╝")
-    
     def ShowAllClients():
         tempClientAuth = ClientController.GetClientByLoginUi()
         if(tempClientAuth == None):
-            ErrorHandling.ThrowWarning("Este cliente não existe")
             return
 
         del tempClientAuth

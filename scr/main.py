@@ -1,6 +1,8 @@
+import os
 from controllers.client_controller import ClientController
 from controllers.address_controller import AddressController
-from util.error_handling import ErrorHandling
+from views_elements.menu_views import MenuViews
+
 
 # Code page 437
 # IBM PCs
@@ -19,22 +21,17 @@ ClientController.LoadClientsFromFile()
 #endregion
 
 while(True):
-    print("╔══════════════ DOS Store ══════════════╗")
-    print("║ [ 1 ] - Cadastrar cliente.            ║")
-    print("║ [ 2 ] - Adicionar endereço a cliente. ║")
-    print("║ [ 3 ] - Mostrar dados do cliente.     ║")
-    print("║ [ 4 ] - Mostrar clientes cadastrados. ║")
-    print("║ [ 0 ] - Sair.                         ║")
-    print("╚═══════════════════════════════════════╝")
-
-    menu_choice = input("> ").strip()
-
-    print(menu_choice)
+    menu_choice = MenuViews.MainMenu("1", "2", "3", "4", "0", "/cls")
 
     if(menu_choice == "1"):
         ClientController.RegisterClient()
     elif(menu_choice == "2"):
-        AddressController.RegisterAddressToClient()
+        manage_client_menu_choice = MenuViews.ManageClientsMenu("1", "2", "0")
+
+        if(manage_client_menu_choice == "1"):
+            AddressController.RegisterAddressToClient()
+        elif(manage_client_menu_choice == "2"):
+            ClientController.DeleteClient()
     elif(menu_choice == "3"):
         ClientController.ShowRegistredClient()
     elif(menu_choice == "4"):
@@ -42,5 +39,5 @@ while(True):
     elif(menu_choice == "0"):
         ClientController.SaveClientsInFile()
         break
-    else:
-        ErrorHandling.ThrowWarning("Comando inválido ou inexistente")
+    elif(menu_choice == "/cls"):
+        os.system("cls" if os.name == "nt" else "clear")
