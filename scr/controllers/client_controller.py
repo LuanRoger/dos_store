@@ -4,24 +4,26 @@ from models.client_model import ClientModel
 from util.object_serialization import ObjectSerialization
 from util.error_handling import ErrorHandling
 
-#static
+# static
 class ClientController:
     _client_list: Dict[str, ClientModel] = {}
     _CLIENTS_FILE_PATH = "./clients.uli" #User list info
 
+    #region GetClient --------------------------------------------------------------
+    @staticmethod
     def GetClientByLogin(login: str) -> ClientModel:
         try:
             return ClientController._client_list[login]
         except:
             return None
+    @staticmethod
     def GetClientByLoginUi(singleTimeVerify: bool = True) -> ClientModel:
         actualClient: ClientModel = None
 
-        while(actualClient == None):
+        while(actualClient is None):
             print("╔══════════════════╗")
             print("║ Digite seu login ║")
             print("╚══════════════════╝")
-            #TODO: Create a command recoganizer
             if(not singleTimeVerify):
                 print("[/exit] - Para sair")
 
@@ -52,10 +54,13 @@ class ClientController:
                 continue
         
         return actualClient
+    #endregion
 
     #region Client persistence ----------------------------------------------------
+    @staticmethod
     def SaveClientsInFile():
         ObjectSerialization.DumpToBin(ClientController._client_list, ClientController._CLIENTS_FILE_PATH)
+    @staticmethod
     def LoadClientsFromFile():
         try:
             ClientController._client_list = ObjectSerialization.LoadFromBin(ClientController._CLIENTS_FILE_PATH)
@@ -63,6 +68,8 @@ class ClientController:
             pass
     #endregion---------------------------------------------------------------------
 
+    #region Manage Client ---------------------------------------------------------
+    @staticmethod
     def RegisterClient():
         nome: str = None
         login: str = None
@@ -71,14 +78,14 @@ class ClientController:
         data_nascimento: date = None
         tellNumb: str = None
 
-        while(nome == None or nome == ""):
+        while(nome is None or nome == ""):
             print("╔═════════════════╗")
             print("║ Digite seu nome ║")
             print("╚═════════════════╝")
 
             nome = input("> ").strip()
         
-        while(login == None or login == ""):
+        while(login is None or login == ""):
             print("╔══════════════════╗")
             print("║ Digite seu login ║")
             print("╚══════════════════╝")
@@ -89,30 +96,34 @@ class ClientController:
                 ErrorHandling.ThrowWarning("Este login já está cadastrado")
                 login = None
         
-        while(senha == None or senha == ""):
+        while(senha is None):
             print("╔══════════════════╗")
             print("║ Digite sua senha ║")
             print("╚══════════════════╝")
 
             senha = input("> ").strip()
+
+            if(senha == ""):
+                ErrorHandling.ThrowWarning("Senha não pode estar vazia")
+                senha = None
         
-        while(email == None or email == ""):
+        while(email is None):
             print("╔══════════════════╗")
             print("║ Digite seu email ║")
             print("╚══════════════════╝")
 
             email = input("> ").strip()
 
-            if(not "@" in email or not ".com" in email):
+            if(not "@" in email or not ".com" in email or email == ""):
                 ErrorHandling.ThrowWarning("Este não é um email válido.")
                 email = None
         
-        while(data_nascimento == None):
+        while(data_nascimento is None):
             day: int = None
             month: int = None
             year: int = None
 
-            while(day == None or day < 1 or day > 31):
+            while(day is None):
                 print("╔══════════════════════════════╗")
                 print("║ Digite seu dia de nascimento ║")
                 print("╚══════════════════════════════╝")
@@ -121,7 +132,13 @@ class ClientController:
                     day = int(input("> ").strip())
                 except:
                     ErrorHandling.ThrowError("O caracter digitado é inválido")
-            while(month == None or month < 1 and month > 12):
+                    continue
+
+                if(1 > day > 31):
+                    ErrorHandling.ThrowWarning("Dia inválido")
+                    ErrorHandling.ThrowInformation("O dia digitado deve estar entre 1 e 31")
+                    day = None
+            while(month is None):
                 print("╔══════════════════════════════╗")
                 print("║ Digite seu mês de nascimento ║")
                 print("╚══════════════════════════════╝")
@@ -130,7 +147,13 @@ class ClientController:
                     month = int(input("> ").strip())
                 except:
                     ErrorHandling.ThrowError("O caracter digitado é inválido")
-            while(year == None or year > date.today().year):
+                    continue
+                
+                if(1 > month > 12):
+                    ErrorHandling.ThrowWarning("Mês inválido")
+                    ErrorHandling.ThrowInformation("O mês digitado deve estar entre 1 e 12")
+                    month = None
+            while(year is None):
                 print("╔══════════════════════════════╗")
                 print("║ Digite seu ano de nascimento ║")
                 print("╚══════════════════════════════╝")
@@ -139,14 +162,20 @@ class ClientController:
                     year = int(input("> ").strip())
                 except:
                     ErrorHandling.ThrowError("O caracter digitado é inválido")
+                    continue
+
+                if(year > date.today().year):
+                    ErrorHandling.ThrowWarning("Ano inválido")
+                    ErrorHandling.ThrowInformation("O ano digitado deve estar entre 1 e " + date.today().year)
+                    year = None
             
             data_nascimento = date(year, month, day)
         
-        while(tellNumb == None):
+        while(tellNumb is None):
             ddd: str = None
             tellNumbLocalTemp: str = None
 
-            while(ddd == None):
+            while(ddd is None):
                 print("╔══════════════════════════════╗")
                 print("║ Digite o DDD do seu telefone ║")
                 print("╚══════════════════════════════╝")
@@ -156,8 +185,12 @@ class ClientController:
                 if(len(ddd) != 2):
                     ErrorHandling.ThrowWarning("O DDD digitado é inválido")
                     ddd = None
+                
+                if(ddd == ""):
+                    ErrorHandling.ThrowWarning("O DDD não pode estar vazio")
+                    ddd = None
             
-            while(tellNumbLocalTemp == None):
+            while(tellNumbLocalTemp is None):
                 print("╔═══════════════════════════════╗")
                 print("║ Digite seu número de telefone ║")
                 print("╚═══════════════════════════════╝")
@@ -166,6 +199,10 @@ class ClientController:
 
                 if(len(tellNumbLocalTemp) != 9):
                     ErrorHandling.ThrowWarning("O número de telefone digitado é inválido")
+                    tellNumbLocalTemp = None
+                
+                if(tellNumbLocalTemp == ""):
+                    ErrorHandling.ThrowWarning("O número de telefone não pode estar vazio")
                     tellNumbLocalTemp = None
         
             tellNumb = f"({ddd}) {tellNumbLocalTemp}"
@@ -176,6 +213,7 @@ class ClientController:
         print("╔════════════════════════════════╗")
         print("║ Cliente cadastrado com sucesso ║")
         print("╚════════════════════════════════╝")
+    @staticmethod
     def DeleteClient():
         tempClientAuth = ClientController.GetClientByLoginUi(False)
         if(tempClientAuth == None):
@@ -216,32 +254,35 @@ class ClientController:
         print("╔══════════════════════════════╗")
         print("║ Cliente deletado com sucesso ║")
         print("╚══════════════════════════════╝")
+    #endregion --------------------------------------------------------------------
 
+    #region Show Clients ----------------------------------------------------------
+    @staticmethod
     def ShowRegistredClient():
-        actualClient = ClientController.GetClientByLoginUi(False)
-
-        if(actualClient == None):
+        actualClient = ClientController.GetClientByLoginUi()
+        if(actualClient is None):
             return
         
-        print("╔═══════════════════════════ Informações ═══════════════════════════╗")
+        print("╔═══════════════════════ Informações ════════════════════════╗")
         print(f" Nome completo: " + actualClient.nome)
         print(f" Email: " + actualClient.email)
         print(f" Login: " + actualClient.login)
         print(f" Data de nascimento: " + actualClient.data_nascimento.strftime("%d/%m/%Y"))
         print(f" N° Telefone: " + actualClient.tellNumb)
 
-        if(actualClient.enderecos != None):
+        if(actualClient.enderecos is not None):
             defaultAddress = actualClient.enderecos[0]
-            print("  ╔══════════════════════ Endereço (Padrão) ═════════════════════╗")
+            print("  ╔═══════════════════ Endereço (Padrão) ═══════════════════╗")
             print(f"   Rua: " + defaultAddress.rua)
             print(f"   N°: " + defaultAddress.numero)
             print(f"   Complemento: " + defaultAddress.bairro)
             print(f"   Cidade: " + defaultAddress.cidade)
             print(f"   CEP: " + defaultAddress.cep)
             print(f"   Ponto de referência: " + defaultAddress.pontoReferencia)
-            print("  ╚══════════════════════════════════════════════════════════════╝")
+            print("  ╚═════════════════════════════════════════════════════════╝")
 
-        print("╚═══════════════════════════════════════════════════════════════════╝")
+        print("╚════════════════════════════════════════════════════════════╝")
+    @staticmethod
     def ShowAllClients():
         tempClientAuth = ClientController.GetClientByLoginUi()
         if(tempClientAuth == None):
@@ -280,3 +321,4 @@ class ClientController:
                     print(rootIndent2 + "    " + rootAddressIndent2 + "└── " + enderco.pontoReferencia)
 
                     listInterator += 1
+    #endregion ---------------------------------------------------------------------

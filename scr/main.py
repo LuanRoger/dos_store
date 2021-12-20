@@ -18,7 +18,7 @@ from views_elements.menu_views import MenuViews
 #regin Initial configure ------------------------------------------
 ClientController.LoadClientsFromFile()
 
-#endregion
+#endregion --------------------------------------------------------
 
 while(True):
     menu_choice = MenuViews.MainMenu("1", "2", "3", "4", "0", "/cls")

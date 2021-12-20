@@ -5,9 +5,10 @@ from util.error_handling import ErrorHandling
 class MenuViews:
     _PREFIX_CHOICE: str = "> "
 
+    @staticmethod
     def MainMenu(*safeArgs: str) -> str:
         menu_choice: str = None
-        while(menu_choice == None):
+        while(menu_choice is None):
             print("╔══════════════ DOS Store ══════════════╗")
             print("║ [ 1 ] - Cadastrar cliente.            ║")
             print("║ [ 2 ] - Gerenciar clientes.           ║")
@@ -25,9 +26,10 @@ class MenuViews:
         
         return menu_choice
 
+    @staticmethod
     def ManageClientsMenu(*safeArgs) -> str:
         menu_choice: str = None
-        while(menu_choice == None):
+        while(menu_choice is None):
             print("╔═════ Gerenciar usuários ════╗")
             print("║ [ 1 ] - Cadastrar endereço. ║")
             print("║ [ 2 ] - Deletar usuário.    ║")

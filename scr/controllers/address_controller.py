@@ -5,14 +5,16 @@ from util.error_handling import ErrorHandling
 
 #static
 class AddressController:
+    @staticmethod
     def RegisterAddressToClient():
         actualClient: ClientModel = ClientController.GetClientByLoginUi()
 
-        if(actualClient == None):
+        if(actualClient is None):
             return
         
         AddressController._RegisterClientAddress(actualClient)
 
+    @staticmethod
     def _RegisterClientAddress(client: ClientModel):
         rua: str = None
         numero: str = None
@@ -22,63 +24,92 @@ class AddressController:
         cep: str = None
         pontoReferencia: str = None
 
-        while(rua == None or rua == ""):
+        while(rua is None):
             print("╔════════════════╗")
             print("║ Digite sua rua ║")
             print("╚════════════════╝")
 
             rua = input("> ")
+
+            if(rua == ""):
+                ErrorHandling.ThrowWarning("Rua não pode estar vazia")
+                rua = None
         
-        while(numero == None or numero == ""):
+        while(numero is None):
             print("╔═════════════════════════════╗")
             print("║ Digite o numero da sua casa ║")
             print("╚═════════════════════════════╝")
 
-            numero = input("> ")
+            try:
+                numero = int(input("> ")) # Verify if is number
+                numero = str(numero)
+            except:
+                ErrorHandling.ThrowWarning("Digite um valor válido.")
+                continue
 
             if(len(numero) != 4):
-                ErrorHandling.ThrowWarning("Digite um valor válido.")
                 numero = None
         
-        while(complemento == None or complemento == ""):
+        while(complemento is None):
             print("╔══════════════════════╗")
             print("║ Digite o complemento ║")
             print("╚══════════════════════╝")
 
             complemento = input("> ")
+
+            if(complemento == ""):
+                ErrorHandling.ThrowWarning("Complemento não pode estar vazio")
+                complemento = None
         
-        while(bairro == None or bairro == ""):
+        while(bairro is None):
             print("╔═════════════════════════╗")
             print("║ Digite o nome do bairro ║")
             print("╚═════════════════════════╝")
 
             bairro = input("> ")
+
+            if(bairro == ""):
+                ErrorHandling.ThrowWarning("Bairro não pode estar vazio")
+                bairro = None
         
-        while(cidade == None or cidade == ""):
+        while(cidade is None):
             print("╔═════════════════════════╗")
             print("║ Digite o nome da cidade ║")
             print("╚═════════════════════════╝")
 
             cidade = input("> ")
+
+            if(cidade == ""):
+                ErrorHandling.ThrowWarning("Cidade não pode estar vazio")
+                cidade = None
         
-        while(cep == None or cep == ""):
+        while(cep is None):
             print("╔══════════════╗")
             print("║ Digite o CEP ║")
             print("╚══════════════╝")
 
             cep = input("> ")
 
-            if(len(cep) != 8):
+            if(8 >= len(cep) >= 9):
                 ErrorHandling.ThrowWarning("O valor digitado é inválido")
+
+            if(cep == ""):
+                ErrorHandling.ThrowWarning("CEP não pode estar vazio")
+                cep = None
         
-        while(pontoReferencia == None or pontoReferencia == ""):
+        while(pontoReferencia is None):
             print("╔══════════════════════════════╗")
             print("║ Digite o ponto de referência ║")
             print("╚══════════════════════════════╝")
 
             pontoReferencia = input("> ")
+
+            if(pontoReferencia == ""):
+                ErrorHandling.ThrowWarning("Ponto de referência não pode estar vazio")
+                pontoReferencia = None
         
-        if(client.enderecos == None):
+        # If the address is not been initialize yet
+        if(client.enderecos is None):
             client.enderecos = []
 
         client.enderecos.append(AddressModel(rua, numero, complemento, bairro, cidade, cep, pontoReferencia))
