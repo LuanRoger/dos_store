@@ -4,7 +4,7 @@ from models.client_model import ClientModel
 from util.object_serialization import ObjectSerialization
 from util.error_handling import ErrorHandling
 
-# static
+#static
 class ClientController:
     _client_list: Dict[str, ClientModel] = {}
     _CLIENTS_FILE_PATH = "./clients.uli" #User list info
@@ -33,7 +33,7 @@ class ClientController:
 
             actualClient = ClientController.GetClientByLogin(login)
 
-            if(actualClient == None):
+            if(actualClient is None):
                 ErrorHandling.ThrowWarning("Este cliente não existe")
 
                 if(singleTimeVerify):
@@ -78,20 +78,29 @@ class ClientController:
         data_nascimento: date = None
         tellNumb: str = None
 
-        while(nome is None or nome == ""):
+        while(nome is None):
             print("╔═════════════════╗")
             print("║ Digite seu nome ║")
             print("╚═════════════════╝")
 
             nome = input("> ").strip()
+
+            if(nome == ""):
+                ErrorHandling.ThrowWarning("Nome não pode estar vazio")
+                nome = None
         
-        while(login is None or login == ""):
+        while(login is None):
             print("╔══════════════════╗")
             print("║ Digite seu login ║")
             print("╚══════════════════╝")
 
             login = input("> ").strip()
             
+            if(login == ""):
+                ErrorHandling.ThrowWarning("Login não pode estar vazio")
+                login = None
+                continue
+
             if(login in ClientController._client_list):
                 ErrorHandling.ThrowWarning("Este login já está cadastrado")
                 login = None
@@ -134,7 +143,7 @@ class ClientController:
                     ErrorHandling.ThrowError("O caracter digitado é inválido")
                     continue
 
-                if(1 > day > 31):
+                if(day not in range(1, 32)):
                     ErrorHandling.ThrowWarning("Dia inválido")
                     ErrorHandling.ThrowInformation("O dia digitado deve estar entre 1 e 31")
                     day = None
@@ -149,7 +158,7 @@ class ClientController:
                     ErrorHandling.ThrowError("O caracter digitado é inválido")
                     continue
                 
-                if(1 > month > 12):
+                if(month not in range(1, 13)):
                     ErrorHandling.ThrowWarning("Mês inválido")
                     ErrorHandling.ThrowInformation("O mês digitado deve estar entre 1 e 12")
                     month = None
@@ -164,9 +173,9 @@ class ClientController:
                     ErrorHandling.ThrowError("O caracter digitado é inválido")
                     continue
 
-                if(year > date.today().year):
+                if(year not in range(1800, date.today().year + 1)):
                     ErrorHandling.ThrowWarning("Ano inválido")
-                    ErrorHandling.ThrowInformation("O ano digitado deve estar entre 1 e " + date.today().year)
+                    ErrorHandling.ThrowInformation("O ano digitado deve estar entre 1 e " + str(date.today().year))
                     year = None
             
             data_nascimento = date(year, month, day)
@@ -182,12 +191,8 @@ class ClientController:
 
                 ddd = input("> ").strip()
 
-                if(len(ddd) != 2):
+                if(len(ddd) != 2 or ddd == ""):
                     ErrorHandling.ThrowWarning("O DDD digitado é inválido")
-                    ddd = None
-                
-                if(ddd == ""):
-                    ErrorHandling.ThrowWarning("O DDD não pode estar vazio")
                     ddd = None
             
             while(tellNumbLocalTemp is None):
@@ -197,12 +202,8 @@ class ClientController:
 
                 tellNumbLocalTemp = input("> ").strip()
 
-                if(len(tellNumbLocalTemp) != 9):
+                if(len(tellNumbLocalTemp) != 9 or tellNumbLocalTemp == ""):
                     ErrorHandling.ThrowWarning("O número de telefone digitado é inválido")
-                    tellNumbLocalTemp = None
-                
-                if(tellNumbLocalTemp == ""):
-                    ErrorHandling.ThrowWarning("O número de telefone não pode estar vazio")
                     tellNumbLocalTemp = None
         
             tellNumb = f"({ddd}) {tellNumbLocalTemp}"
@@ -216,14 +217,14 @@ class ClientController:
     @staticmethod
     def DeleteClient():
         tempClientAuth = ClientController.GetClientByLoginUi(False)
-        if(tempClientAuth == None):
+        if(tempClientAuth is None):
             ErrorHandling.ThrowWarning("Este cliente não existe")
             return
 
         del tempClientAuth
 
         loginClientToDelete: str = None
-        while(loginClientToDelete == None):
+        while(loginClientToDelete is None):
             print("╔══════════════════════════════════════════════╗")
             print("║ Digite o login do cliente que deseja deletar ║")
             print("╚══════════════════════════════════════════════╝")
@@ -235,7 +236,7 @@ class ClientController:
                 return
 
             userVerify = ClientController.GetClientByLogin(loginClientToDelete)
-            if(userVerify == None):
+            if(userVerify is None):
                 ErrorHandling.ThrowError("Este cliente não existe")
                 return
         
@@ -271,21 +272,25 @@ class ClientController:
         print(f" N° Telefone: " + actualClient.tellNumb)
 
         if(actualClient.enderecos is not None):
-            defaultAddress = actualClient.enderecos[0]
-            print("  ╔═══════════════════ Endereço (Padrão) ═══════════════════╗")
-            print(f"   Rua: " + defaultAddress.rua)
-            print(f"   N°: " + defaultAddress.numero)
-            print(f"   Complemento: " + defaultAddress.bairro)
-            print(f"   Cidade: " + defaultAddress.cidade)
-            print(f"   CEP: " + defaultAddress.cep)
-            print(f"   Ponto de referência: " + defaultAddress.pontoReferencia)
-            print("  ╚═════════════════════════════════════════════════════════╝")
+            addressInterator: int = 1
+            for endereco in actualClient.enderecos:
+
+                print(f"  ╔══════════════════════ Endereço {addressInterator} ══════════════════════╗")
+                print(f"   Rua: " + endereco.rua)
+                print(f"   N°: " + endereco.numero)
+                print(f"   Complemento: " + endereco.bairro)
+                print(f"   Cidade: " + endereco.cidade)
+                print(f"   CEP: " + endereco.cep)
+                print(f"   Ponto de referência: " + endereco.pontoReferencia)
+                print("  ╚════════════════════════════════════════════════════════╝")
+
+                addressInterator += 1
 
         print("╚════════════════════════════════════════════════════════════╝")
     @staticmethod
     def ShowAllClients():
         tempClientAuth = ClientController.GetClientByLoginUi()
-        if(tempClientAuth == None):
+        if(tempClientAuth is None):
             return
 
         del tempClientAuth
@@ -296,14 +301,14 @@ class ClientController:
 
             rootIndent = "└── " if isLast else "├── "
             rootIndent2 = "    " if isLast else "│   "
-            lastClientCharacterTree = "└── " if client.enderecos == None else "├── "
+            lastClientCharacterTree = "└── " if client.enderecos is None else "├── "
 
             print(rootIndent + client.nome)
             print(rootIndent2 + "├── " + client.email)
             print(rootIndent2 + "├── " + client.login)
             print(rootIndent2 + "├── " + client.data_nascimento.strftime("%d/%m/%Y"))
             print(rootIndent2 + lastClientCharacterTree + client.tellNumb)
-            if(client.enderecos != None):
+            if(client.enderecos is not None):
                 print(rootIndent2 + "└── " + "Endereços")
                 listInterator: int = 1
                 for enderco in client.enderecos:

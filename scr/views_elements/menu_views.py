@@ -1,7 +1,6 @@
 #static
 from util.error_handling import ErrorHandling
 
-
 class MenuViews:
     _PREFIX_CHOICE: str = "> "
 

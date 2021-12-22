@@ -3,7 +3,6 @@ from controllers.client_controller import ClientController
 from controllers.address_controller import AddressController
 from views_elements.menu_views import MenuViews
 
-
 # Code page 437
 # IBM PCs
 # ╔═╗
