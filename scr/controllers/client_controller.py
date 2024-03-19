@@ -9,7 +9,7 @@ class ClientController:
     _client_list: Dict[str, ClientModel] = {}
     _CLIENTS_FILE_PATH = "./clients.uli" #User list info
 
-    #region GetClient --------------------------------------------------------------
+    #region GetClient
     @staticmethod
     def GetClientByLogin(login: str) -> ClientModel:
         try:
@@ -56,7 +56,7 @@ class ClientController:
         return actualClient
     #endregion
 
-    #region Client persistence ----------------------------------------------------
+    #region Client persistence
     @staticmethod
     def SaveClientsInFile():
         ObjectSerialization.DumpToBin(ClientController._client_list, ClientController._CLIENTS_FILE_PATH)
@@ -66,9 +66,9 @@ class ClientController:
             ClientController._client_list = ObjectSerialization.LoadFromBin(ClientController._CLIENTS_FILE_PATH)
         except:
             pass
-    #endregion---------------------------------------------------------------------
+    #endregion
 
-    #region Manage Client ---------------------------------------------------------
+    #region Manage Client
     @staticmethod
     def RegisterClient():
         nome: str = None
@@ -257,7 +257,7 @@ class ClientController:
         print("╚══════════════════════════════╝")
     #endregion --------------------------------------------------------------------
 
-    #region Show Clients ----------------------------------------------------------
+    #region Show Clients
     @staticmethod
     def ShowRegistredClient():
         actualClient = ClientController.GetClientByLoginUi()
