@@ -2,7 +2,7 @@
 
 namespace DosStore.Views;
 
-public class ManageClientsMenu : IMenuView
+public class ManageClientsMenuView : IMenuView
 {
     public char ShowMenu()
     {

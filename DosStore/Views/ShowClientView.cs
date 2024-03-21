@@ -6,7 +6,7 @@ using Spectre.Console;
 
 namespace DosStore.Views;
 
-public class ShowClientView : IFlowMenu
+public class ShowClientView : IFlowMenuView
 {
     private readonly ClientController _clientController = new();
     private readonly AdressController _adressController = new();
@@ -38,7 +38,7 @@ public class ShowClientView : IFlowMenu
 
         Tree clientTree = new(clientInfo.nome);
         clientTree.AddNodes(clientInfo.email, clientInfo.tellNumb, clientInfo.dataNascimento.ToLongDateString());
-        TreeNode adressNode = clientTree.AddNode("Endereçcos");
+        TreeNode adressNode = clientTree.AddNode("Endereços");
         foreach (AdressModel clientAdress in clientAdresses)
         {
             TreeNode specificAdressNode = adressNode.AddNode(clientAdress.rua);

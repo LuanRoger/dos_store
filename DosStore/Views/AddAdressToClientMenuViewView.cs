@@ -7,7 +7,7 @@ using Spectre.Console;
 
 namespace DosStore.Views;
 
-public class AddAdressToClientMenuView(IRuleFactory? ruleFactory = null) : IFlowMenu
+public class AddAdressToClientMenuViewView(IRuleFactory? ruleFactory = null) : IFlowMenuView
 {
     private readonly AdressController _adressController = new(); 
     private IRuleFactory ruleFactory { get; } = ruleFactory ?? new RuleFactory();

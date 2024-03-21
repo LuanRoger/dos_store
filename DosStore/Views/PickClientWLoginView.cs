@@ -14,8 +14,8 @@ public class PickClientWLoginView : IResultedFlowMenu<(UserModel, int)?>
         if(clienteModel is null)
             return null;
         
-        PickClientMenu pickClientMenu = new();
-        int clientId = await pickClientMenu.StartFlow();
+        PickClientMenuView pickClientMenuView = new();
+        int clientId = await pickClientMenuView.StartFlow();
         if(clientId == -1)
         {
             _messages.NoClientsFound();

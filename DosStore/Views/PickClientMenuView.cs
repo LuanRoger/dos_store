@@ -5,7 +5,7 @@ using Spectre.Console;
 
 namespace DosStore.Views;
 
-public class PickClientMenu : IResultedFlowMenu<int>
+public class PickClientMenuView : IResultedFlowMenu<int>
 {
     private readonly ClientController _clientController = new();
     

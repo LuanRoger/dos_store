@@ -12,8 +12,8 @@ while (true)
     switch (option)
     {
         case '1':
-            CreateClienteMenu clienteMenu = new();
-            await clienteMenu.StartFlow();
+            CreateClienteMenuViewView clienteMenuViewView = new();
+            await clienteMenuViewView.StartFlow();
             break;
         case '2':
             await EnterManageClientsMenu();
@@ -34,17 +34,17 @@ while (true)
 
 async Task EnterManageClientsMenu()
 {
-    ManageClientsMenu manageClientsMenu = new();
-    manageClientsMenu.ShowMenu();
+    ManageClientsMenuView manageClientsMenuView = new();
+    manageClientsMenuView.ShowMenu();
 
     while (true)
     {
-        char option = manageClientsMenu.ShowMenu();
+        char option = manageClientsMenuView.ShowMenu();
         switch (option)
         {
             case '1':
-                AddAdressToClientMenuView addAdressToClientMenuView = new();
-                await addAdressToClientMenuView.StartFlow();
+                AddAdressToClientMenuViewView addAdressToClientMenuViewView = new();
+                await addAdressToClientMenuViewView.StartFlow();
                 break;
             case '2':
                 DeleteClientView clientView = new();
