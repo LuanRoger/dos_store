@@ -17,4 +17,18 @@ public class AdressController
         
         await _adressRepository.RegisterAdressForUser(adress, client);
     }
+
+    public async Task<IReadOnlyList<AdressModel>> GetClientAdressById(int clientId)
+    {
+        var adresses = await _adressRepository.GetClientAdreesById(clientId);
+
+        return adresses;
+    }
+    
+    public bool ValidateNumber(string value) => value.All(char.IsNumber);
+    
+    public bool ValidateCep(string value)
+    {
+        return value.Length is 8 or 9;
+    }
 }

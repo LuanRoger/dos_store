@@ -1,4 +1,5 @@
-﻿using DosStore.Models;
+﻿using DosStore.Exceptions;
+using DosStore.Models;
 using DosStore.Models.Read;
 using DosStore.Repository;
 using DosStore.Validators;
@@ -8,11 +9,6 @@ namespace DosStore.Controller;
 public class ClientController
 {
     private readonly ClientRepository _clientRepository = new();
-    
-    public async Task CreateClient(ClienteModel cliente)
-    {
-        await _clientRepository.CreateClient(cliente);
-    }
     
     public async Task<IReadOnlyList<MinimalReadClientModel>> GetAllClients()
     {
@@ -26,6 +22,20 @@ public class ClientController
             }).ToList();
 
         return minimalReadClientModels;
+    }
+    
+    public async Task<ClienteModel> GetClientById(int id)
+    {
+        ClienteModel? client = await _clientRepository.GetClientById(id);
+        if(client is null)
+            throw new ClientNotFoundException();
+
+        return client;
+    }
+    
+    public async Task CreateClient(ClienteModel cliente)
+    {
+        await _clientRepository.CreateClient(cliente);
     }
 
     public bool ValidateEmail(string value)

@@ -18,6 +18,14 @@ while (true)
         case '2':
             await EnterManageClientsMenu();
             break;
+        case '3':
+            ShowClientView showClientView = new();
+            await showClientView.StartFlow();
+            break;
+        case '4':
+            ShowAllClientsView showAllClientsView = new();
+            await showAllClientsView.StartFlow();
+            break;
         case '0':
             mainMenu.messages.GoodbayMessage();
             return;
