@@ -33,6 +33,11 @@ public class ClientController
         return client;
     }
     
+    public async Task<bool> DeleteClientById(int clientId)
+    {
+        return await _clientRepository.DeleteClientById(clientId);
+    }
+    
     public async Task CreateClient(ClienteModel cliente)
     {
         await _clientRepository.CreateClient(cliente);

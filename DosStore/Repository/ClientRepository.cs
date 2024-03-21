@@ -23,9 +23,25 @@ public class ClientRepository
     public async Task<IReadOnlyList<ClienteModel>> GetAllClients()
     {
         await using AppDbContext dbContext = new();
-        List<ClienteModel> allClients = await dbContext.clientes.AsNoTracking()
+        List<ClienteModel> allClients = await dbContext.clientes
+            .AsNoTracking()
             .ToListAsync();
 
         return allClients;
+    }
+
+    public async Task<bool> DeleteClientById(int clientId)
+    {
+        await using AppDbContext dbContext = new();
+        ClienteModel? cliente = await dbContext.clientes.
+            FindAsync(clientId);
+        if(cliente is null)
+            return false;
+        
+        dbContext.clientes.Remove(cliente);
+
+        await dbContext.SaveChangesAsync();
+        
+        return true;
     }
 }
