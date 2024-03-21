@@ -46,6 +46,10 @@ async Task EnterManageClientsMenu()
                 AddAdressToClientMenuView addAdressToClientMenuView = new();
                 await addAdressToClientMenuView.StartFlow();
                 break;
+            case '2':
+                DeleteClientView clientView = new();
+                await clientView.StartFlow();
+                break;
             case '0':
                 return;
         }
