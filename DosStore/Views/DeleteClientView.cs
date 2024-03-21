@@ -4,7 +4,7 @@ using DosStore.Views.Messages;
 
 namespace DosStore.Views;
 
-public class DeleteClientView : IFlowMenu
+public class DeleteClientView : IFlowMenuView
 {
     private readonly PickClientWLoginView _pickClientWLoginView = new();
     private readonly ClientController _clientController = new();
@@ -20,7 +20,7 @@ public class DeleteClientView : IFlowMenu
 
         bool success = await _clientController.DeleteClientById(clientId);
         if(!success)
-            _messages.CantDeleteClient();
+             _messages.CantDeleteClient();
         
         _messages.ShowClientDeleted();
     }

@@ -12,9 +12,9 @@ public class LoginView : IResultedFlowMenu<UserModel?>
     public async Task<UserModel?> StartFlow()
     {
         string login = AnsiConsole.Prompt(
-            new TextPrompt<string>("Digite seu login"));
+            new TextPrompt<string>("Digite seu login:"));
         string senha = AnsiConsole.Prompt(
-            new TextPrompt<string>("Digite sua senha")
+            new TextPrompt<string>("Digite sua senha:")
                 .Secret());
 
         UserModel clienteModel;
