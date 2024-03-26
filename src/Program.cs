@@ -35,7 +35,6 @@ while (true)
 async Task EnterManageClientsMenu()
 {
     ManageClientsMenuView manageClientsMenuView = new();
-    manageClientsMenuView.ShowMenu();
 
     while (true)
     {

@@ -22,8 +22,6 @@ public class CreateClienteMenuViewView(IRuleFactory? ruleFactory = null) : IFlow
             new TextPrompt<string>("Digite seu email:")
                 .ValidationErrorMessage("Digite um email válido")
                 .Validate(_clientController.ValidateEmail));
-        
-        AnsiConsole.Write(ruleFactory.CreateRule("Dados do usuário"));
         int dia = AnsiConsole.Prompt(
             new TextPrompt<int>("Digite seu dia de nascimento:")
                 .ValidationErrorMessage("Digite um dia válido")

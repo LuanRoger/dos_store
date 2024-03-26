@@ -25,23 +25,23 @@ public class AddAdressToClientMenuViewView(IRuleFactory? ruleFactory = null) : I
         (UserModel _, int clientId) = userClientInfo.Value;
         
         string rua = AnsiConsole.Prompt(
-            new TextPrompt<string>("Digite sua rua"));
+            new TextPrompt<string>("Digite sua rua: "));
         string numero = AnsiConsole.Prompt(
-            new TextPrompt<string>("Digite o numero da sua casa")
+            new TextPrompt<string>("Digite o numero da sua casa: ")
                 .ValidationErrorMessage("Digite um número válido")
                 .Validate(_adressController.ValidateNumber));
         string complemento = AnsiConsole.Prompt(
-            new TextPrompt<string>("Digite o complemento"));
+            new TextPrompt<string>("Digite o complemento: "));
         string bairro = AnsiConsole.Prompt(
-            new TextPrompt<string>("Digite o nome do bairro"));
+            new TextPrompt<string>("Digite o nome do bairro: "));
         string cidade = AnsiConsole.Prompt(
-            new TextPrompt<string>("Digite o nome da cidade"));
+            new TextPrompt<string>("Digite o nome da cidade: "));
         string cep = AnsiConsole.Prompt(
-            new TextPrompt<string>("Digite o CEP")
+            new TextPrompt<string>("Digite o CEP: ")
                 .ValidationErrorMessage("Digite um CEP válido")
                 .Validate(_adressController.ValidateCep));
         string pontoReferencia = AnsiConsole.Prompt(
-            new TextPrompt<string>("Digite o ponto de referência"));
+            new TextPrompt<string>("Digite o ponto de referência: "));
 
         AdressModel clientAdress = new()
         {
