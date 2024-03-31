@@ -11,7 +11,7 @@ public class ManageClientsMenuView : IMenuView
                 .Title("Gerenciar clientes.")
                 .AddChoices([
                     "1 - Cadastrar endereço.",
-                    "2 - Deletar usuário.",
+                    "2 - Deletar cliente.",
                     "0 - Voltar."
                 ]));
         char option = menuOptions.First();
