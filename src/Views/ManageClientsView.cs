@@ -11,7 +11,7 @@ public class ManageClientsView : IMenuView
                .Title("DOS Store")
                .AddChoices([
                    "1 - Cadastrar endereço.",
-                   "2 - Deletar usuário.",
+                   "2 - Deletar cliente.",
                    "0 - Voltar."
                ]));
        char option = menuOptions.First();
