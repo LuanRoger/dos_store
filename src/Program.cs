@@ -33,6 +33,10 @@ while (true)
         case '6':
             await EnterManageProductsMenu();
             break;
+        case '7':
+            CreateSaleMenuView createSaleMenuView = new();
+            await createSaleMenuView.StartFlow();
+            break;
         case '0':
             mainMenu.messages.GoodbayMessage();
             return;
