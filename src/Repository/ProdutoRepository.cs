@@ -32,14 +32,14 @@ public class ProdutoRepository
         await db.SaveChangesAsync();
     }
     
-    public async Task<int?> UpdateProductAmount(int id, int ammount)
+    public async Task<int?> UpdateProductAmount(int id, int amount)
     {
         await using AppDbContext db = new();
         ProdutoModel? product = await db.produtos.FindAsync(id);
         if(product is null)
             return null;
         
-        product.quantidade = ammount;
+        product.quantidade = amount;
         await db.SaveChangesAsync();
         
         return product.quantidade;
