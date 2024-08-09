@@ -26,6 +26,17 @@ while (true)
             ShowAllClientsView showAllClientsView = new();
             await showAllClientsView.StartFlow();
             break;
+        case '5':
+            ShowProductsView showProductsView = new();
+            await showProductsView.StartFlow();
+            break;
+        case '6':
+            await EnterManageProductsMenu();
+            break;
+        case '7':
+            CreateSaleMenuView createSaleMenuView = new();
+            await createSaleMenuView.StartFlow();
+            break;
         case '0':
             mainMenu.messages.GoodbayMessage();
             return;
@@ -46,8 +57,35 @@ async Task EnterManageClientsMenu()
                 await addAdressToClientMenuViewView.StartFlow();
                 break;
             case '2':
-                DeleteClientView clientView = new();
-                await clientView.StartFlow();
+                DeleteClientViewMenu clientViewMenu = new();
+                await clientViewMenu.StartFlow();
+                break;
+            case '0':
+                return;
+        }
+    }
+}
+
+async Task EnterManageProductsMenu()
+{
+    ManageProductsMenuView manageProductsMenuView = new();
+    
+    while (true)
+    {
+        char option = manageProductsMenuView.ShowMenu();
+        switch (option)
+        {
+            case '1':
+                CreateProductMenuView createProductMenuView = new();
+                await createProductMenuView.StartFlow();
+                break;
+            case '2':
+                UpdateProductAmountView updateProductAmountView = new();
+                await updateProductAmountView.StartFlow();
+                break;
+            case '3':
+                DeleteProductViewMenu deleteProductViewMenu = new();
+                await deleteProductViewMenu.StartFlow();
                 break;
             case '0':
                 return;

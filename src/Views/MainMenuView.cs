@@ -17,6 +17,9 @@ public class MainMenuView : IMenuView
                     "2 - Gerenciar clientes.",
                     "3 - Mostrar dados do cliente.",
                     "4 - Mostrar clientes cadastrados.",
+                    "5 - Mostrar produtos cadastrados.",
+                    "6 - Gerenciar produtos.",
+                    "7 - Realizar venda.",
                     "0 - Sair."
                 ]));
         char option = menuOptions.First();
