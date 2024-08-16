@@ -34,6 +34,10 @@ while (true)
             await EnterManageProductsMenu();
             break;
         case '7':
+            ShowSalesMenuView showSalesMenuView = new();
+            await showSalesMenuView.StartFlow();
+            break;
+        case '8':
             CreateSaleMenuView createSaleMenuView = new();
             await createSaleMenuView.StartFlow();
             break;
