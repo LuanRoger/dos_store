@@ -4,7 +4,7 @@ using Spectre.Console;
 
 namespace DosStore.Views;
 
-public class UpdateProductAmountView : IFlowMenuView
+public class UpdateProductAmountView : ICommandMenuView
 {
     private readonly ProductController _productController = new();
     private readonly PickProductMenuView _pickProductMenuView = new();

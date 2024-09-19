@@ -1,6 +1,6 @@
 ﻿namespace DosStore.Views;
 
-public interface IFlowMenuView
+public interface ICommandMenuView
 {
     public Task StartFlow();
 }

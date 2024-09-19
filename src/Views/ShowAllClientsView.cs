@@ -5,7 +5,7 @@ using Spectre.Console;
 
 namespace DosStore.Views;
 
-public class ShowAllClientsView : IFlowMenuView
+public class ShowAllClientsView : ICommandMenuView
 {
     private readonly ClientController _clientControlle = new();
     private readonly LoginView _loginView = new();

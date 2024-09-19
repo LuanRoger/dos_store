@@ -4,7 +4,7 @@ using DosStore.Views.Messages;
 
 namespace DosStore.Views;
 
-public class DeleteProductViewMenu : IFlowMenuView
+public class DeleteProductViewMenu : ICommandMenuView
 {
     private readonly ProdutoRepository _produtoRepository = new();
     private readonly PickProductMenuView _pickProductMenuView = new();

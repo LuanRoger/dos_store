@@ -5,7 +5,7 @@ using Spectre.Console;
 
 namespace DosStore.Views;
 
-public class ShowProductsView : IFlowMenuView
+public class ShowProductsView : ICommandMenuView
 {
     private readonly ProdutoRepository _produtoRepository = new();
     

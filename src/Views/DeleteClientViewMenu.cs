@@ -4,7 +4,7 @@ using DosStore.Views.Messages;
 
 namespace DosStore.Views;
 
-public class DeleteClientViewMenu : IFlowMenuView
+public class DeleteClientViewMenu : ICommandMenuView
 {
     private readonly PickClientWLoginView _pickClientWLoginView = new();
     private readonly ClientController _clientController = new();

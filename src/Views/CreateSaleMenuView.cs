@@ -5,7 +5,7 @@ using Spectre.Console;
 
 namespace DosStore.Views;
 
-public class CreateSaleMenuView : IFlowMenuView
+public class CreateSaleMenuView : ICommandMenuView
 {
     private readonly MultiselectProductsMenuView _multiselectProductsMenuView = new();
     private readonly PickClientMenuView _pickClientMenuView = new();

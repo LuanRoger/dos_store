@@ -12,33 +12,33 @@ while (true)
     switch (option)
     {
         case '1':
-            CreateClienteMenuViewView clienteMenuViewView = new();
+            ICommandMenuView clienteMenuViewView = new CreateClienteMenuViewView();
             await clienteMenuViewView.StartFlow();
             break;
         case '2':
             await EnterManageClientsMenu();
             break;
         case '3':
-            ShowClientView showClientView = new();
+            ICommandMenuView showClientView = new ShowClientView();
             await showClientView.StartFlow();
             break;
         case '4':
-            ShowAllClientsView showAllClientsView = new();
+            ICommandMenuView showAllClientsView = new ShowAllClientsView();
             await showAllClientsView.StartFlow();
             break;
         case '5':
-            ShowProductsView showProductsView = new();
+            ICommandMenuView showProductsView = new ShowProductsView();
             await showProductsView.StartFlow();
             break;
         case '6':
             await EnterManageProductsMenu();
             break;
         case '7':
-            ShowSalesMenuView showSalesMenuView = new();
+            ICommandMenuView showSalesMenuView = new ShowSalesMenuView();
             await showSalesMenuView.StartFlow();
             break;
         case '8':
-            CreateSaleMenuView createSaleMenuView = new();
+            ICommandMenuView createSaleMenuView = new CreateSaleMenuView();
             await createSaleMenuView.StartFlow();
             break;
         case '0':
@@ -80,15 +80,15 @@ async Task EnterManageProductsMenu()
         switch (option)
         {
             case '1':
-                CreateProductMenuView createProductMenuView = new();
+                ICommandMenuView createProductMenuView = new CreateProductMenuView();
                 await createProductMenuView.StartFlow();
                 break;
             case '2':
-                UpdateProductAmountView updateProductAmountView = new();
+                ICommandMenuView updateProductAmountView = new UpdateProductAmountView();
                 await updateProductAmountView.StartFlow();
                 break;
             case '3':
-                DeleteProductViewMenu deleteProductViewMenu = new();
+                ICommandMenuView deleteProductViewMenu = new DeleteProductViewMenu();
                 await deleteProductViewMenu.StartFlow();
                 break;
             case '0':

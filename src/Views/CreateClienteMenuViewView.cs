@@ -8,7 +8,7 @@ using Spectre.Console;
 
 namespace DosStore.Views;
 
-public class CreateClienteMenuViewView(IRuleFactory? ruleFactory = null) : IFlowMenuView
+public class CreateClienteMenuViewView(IRuleFactory? ruleFactory = null) : ICommandMenuView
 {
     private readonly ClientController _clientController = new();
     private IRuleFactory ruleFactory { get; } = ruleFactory ?? new RuleFactory();
