@@ -5,7 +5,7 @@ using Spectre.Console;
 
 namespace DosStore.Views;
 
-public class MultiselectProductsMenuView : IResultedFlowMenu<IReadOnlyList<MinimalReadProductModel>>
+public class MultiselectProductsMenuView : IResultedMenu<IReadOnlyList<MinimalReadProductModel>>
 {
     private readonly ProductController _productController = new();
     

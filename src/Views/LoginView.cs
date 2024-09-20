@@ -5,7 +5,7 @@ using Spectre.Console;
 
 namespace DosStore.Views;
 
-public class LoginView : IResultedFlowMenu<UserModel?>
+public class LoginView : IResultedMenu<UserModel?>
 {
     private readonly UserController _clientController = new();
     

@@ -3,7 +3,7 @@ using DosStore.Views.Messages;
 
 namespace DosStore.Views;
 
-public class PickClientWLoginView : IResultedFlowMenu<(UserModel, int)?>
+public class PickClientWLoginView : IResultedMenu<(UserModel, int)?>
 {
     private readonly PickClientsWLoginMessages _messages = new();
     private readonly LoginView _loginView = new();
